@@ -22,7 +22,14 @@ func main(){
 	fmt.Println(q)
 	fmt.Println(cap(q))
 	f := make([]int, 5, 10)
+	f[0] = 3
+	f[1] = 2
 	fmt.Println(f)
+	var t = f[1:5]
+	fmt.Println(t)
+	var h = make([]int, 5)
+	copy(h, f[1:4])
+	fmt.Println(h)
 }
 
 //Slices:
@@ -82,3 +89,42 @@ var q []int
 
 var f = make([]int, 5, 10) // creates a slice with a 
 // length of 5 and capacity of 10
+
+
+// Slicing a slice:
+
+// you can create a slice of a slice using the following
+// syntax:
+
+var t = f[1:5]
+
+// t is now a slice of the elements starting at index
+// 1 of f going up to index 5.
+
+// BE WARNED - taking a slice of a slice still points
+// to the same location in memory. Modifying the
+// subslice will modify the original slice!
+
+// If you need to append to a subslice, use the
+// "full slice expression":
+
+var g = f[1:5:6]
+
+// the final number indicates the last position
+// in the parent slice's capacity that is available
+// to the subslice.
+
+// You can also create a slice of an array using this
+// syntax, but the same memory issue holds true.
+
+
+// Copying slices
+
+// to avoid this memory sharing problem, you can
+// use the built in copy function.
+// First, create a new slice
+
+var h = make([]int, 5)
+// copy(h, f) - copies f to h
+// we can copy subsections of an array using this
+// syntax: copy(h, f[1:4])

@@ -30,6 +30,58 @@ func main(){
 	for _, v := range oddVals {
 		fmt.Println(v)
 	}
+
+	myMap := map[string]int{
+		"a":1,
+		"b": 2,
+		"c":3,
+	}
+
+	for k,v := range myMap {
+		fmt.Println(k, v)
+	}
+
+	myString := "hello" 
+	for i, r:= range myString{ // r here represents the numeric value of the character in a string
+		fmt.Println(i, r, string(r))
+	}
+
+	complexString := "apple_π!"
+	
+	for i, r := range complexString{ // i represents the index value in the string - notice that 7 is skipped, since π takes up to indexes worth of bytes.
+		fmt.Println(i,r,string(r))
+	}
+
+	numMap := map[string]int{
+		"a": 1,
+		"b": 2,
+		"c":3,
+	}
+
+	for _,v := range numMap{ // doesn't modify source
+		v += 1
+	}
+	fmt.Println(numMap)
+
+	for k := range numMap{ // does modify source
+		numMap[k] += 1
+	}
+	fmt.Println(numMap)
+
+	samples := []string{"hello", "apple_π!"}
+outer: // we indent labels to the same level as the block in which they are included
+	for _, sample := range samples {
+	inner: // while you can label a nested for loop, it's rare to do so
+		for i, r := range sample {
+			fmt.Println(i, r, string(r))
+			if r == 'l' {
+				continue outer
+				// break outer // <-- also works
+				// break inner
+			}
+		}
+		fmt.Println()
+	}
 }
 
 // For Loops
@@ -149,3 +201,50 @@ func main(){
 // ^^ This is so versatile! Especially for a map
 // that is being used as a set. More often
 // used with maps than with arrays or slices
+
+
+// String iteration
+
+// Due to the way strings are stored as bytes,
+// using a for range loop to iterate over a string
+// will iteate over the RUNES in a string, rather than
+// the BYTES. 
+
+
+// Whenever a for-range loop encounters a multibyte
+//  rune in a string, 
+// it converts the UTF-8 representation into a single
+//  32-bit number and assigns it to the value.
+//   The offset is incremented by the number of bytes 
+//   in the rune. If the for-range loop encounters a 
+//   byte that doesn’t represent a valid UTF-8 value, 
+//   the Unicode replacement character 
+//   (hex value 0xfffd) is returned instead.
+
+// FOR-RANGE IS COPY
+
+// When you use a for-range to iterate over a compound
+// type, it copies the value from the compound type
+// to the value variable. Changing the value variable
+// doesn't change anything within your
+// compound type.
+
+
+// LABELING FOR STATEMENTS
+
+// Labelling our for statments allows us to use the
+// continue and break keywords on labelled for statements
+// which is usefull when dealing with nested for loops.
+
+
+// samples := []string{"hello", "apple_π!"}
+// outer:
+//     for _, sample := range samples {
+//         for i, r := range sample {
+//             fmt.Println(i, r, string(r))
+//             if r == 'l' {
+//                 continue outer
+//             }
+//         }
+//         fmt.Println()
+//     }
